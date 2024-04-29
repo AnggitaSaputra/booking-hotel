@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Expr\Cast\Bool_;
 
 class BookingController extends Controller
 {
@@ -68,6 +67,37 @@ class BookingController extends Controller
 
             return redirect()->back()->with('success', 'data created successfully');
         }
+    }
+    function countBookingsByDays()
+    {
+        // Initialize an empty array to hold the counts for all days of the week
+        $countsByDay = [
+            'Sunday' => 0,
+            'Monday' => 0,
+            'Tuesday' => 0,
+            'Wednesday' => 0,
+            'Thursday' => 0,
+            'Friday' => 0,
+            'Saturday' => 0,
+        ];
 
+        // Get the start and end dates of the current week
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        // Retrieve bookings made within the current week
+        $bookings = Booking::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+
+        // Loop through the bookings
+        foreach ($bookings as $booking) {
+            // Get the day name of the booking
+            $dayName = Carbon::parse($booking->created_at)->setTimezone('Asia/Jakarta')->formatLocalized('%A');
+
+            // Increment the count for the corresponding day
+            $countsByDay[$dayName]++;
+        }
+
+        // Return the counts array
+        return Response::json($countsByDay);
     }
 }

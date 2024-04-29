@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-<body class="bg-gray-100">
     <!-- Content -->
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Daftar Harga</h1>

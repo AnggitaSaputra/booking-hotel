@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <body>
+
     <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
         <h1 class="text-2xl font-bold mb-4 text-center">Booking Form</h1>
         @if(session('success'))
@@ -47,8 +47,8 @@
             </div>
             <div class="mb-4">
                 <label for="durasi_menginap" class="block text-sm font-medium text-gray-700">Durasi Menginap (hari):</label>
-                <input type="number" id="durasi_menginap" name="durasi_menginap" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-            </div>
+                <input type="number" id="durasi_menginap" name="durasi_menginap" required class="mt-1 p-2 border border-gray-300 rounded-md w-full" min="1">
+            </div>                    
             <div class="mb-4">
                 <input type="checkbox" id="breakfast" name="breakfast" value="1" class="mr-2">
                 <label for="breakfast" class="text-sm font-medium text-gray-700">Pilih Breakfast</label>
@@ -66,6 +66,25 @@
     </div>
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var nomorIdentitasInput = document.getElementById('nomor_identitas');
+
+        nomorIdentitasInput.addEventListener('input', function() {
+            // Menghapus spasi dan karakter non-digit dari input
+            var nomorIdentitas = this.value.replace(/\D/g, '');
+
+            // Memastikan input memiliki tepat 16 digit angka
+            if (nomorIdentitas.length !== 16) {
+                // Menampilkan pesan jika tidak memenuhi persyaratan
+                this.setCustomValidity('Isian salah. Data harus 16 digit');
+            } else {
+                // Menghapus pesan jika input sesuai
+                this.setCustomValidity('');
+            }
+        });
+    });
+
         // Menambahkan event listener untuk tombol 'hitungPembayaran'
         document.getElementById('hitungPembayaran').addEventListener('click', function() {
 

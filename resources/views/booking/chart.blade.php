@@ -22,14 +22,14 @@
 <script>
     function fetchBookingData() {
       return new Promise((resolve, reject) => {
-        // Make an AJAX request to the server endpoint to retrieve booking data
-        fetch('{{ route('get.chart') }}') // Update the endpoint URL accordingly
+        // memuat permintaan AJAX ke titik akhir server untuk mengambil data pemesanan
+        fetch('{{ route('get.chart') }}') // memperbarui URL titik akhir 
           .then(response => {
-            // Check if the response is successful
+            // meriksa apakah responsnya berhasil
             if (!response.ok) {
               throw new Error('Failed to fetch booking data');
             }
-            // Parse the JSON response
+            // Parsing respons JSON
             return response.json();
           })
           .then(data => {
@@ -44,7 +44,7 @@
       });
     }
     
-    // Function to render the chart with the provided data
+    // Berfungsi untuk merender grafik dengan data yang disediakan
     function renderChart(data) {
       // Chart options
       const dayNames = Object.keys(data);
@@ -94,7 +94,7 @@
         },
         series: [
           {
-            name: "Bookings", // Assuming you're displaying bookings
+            name: "Bookings", // Dengan asumsi menampilkan pemesanan
             data: bookingCounts,
             color: "#1A56DB",
           },
@@ -123,7 +123,7 @@
       }
     }
     
-    // Fetch booking data and render chart on page load
+    // mengambil data pemesanan dan render bagan saat memuat halaman
     document.addEventListener("DOMContentLoaded", () => {
       fetchBookingData()
         .then(data => {

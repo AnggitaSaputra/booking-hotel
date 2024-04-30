@@ -1,18 +1,20 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="flex justify-center py-auto container mx-auto p-32 items-center">
-        <div class="w-full bg-white rounded-lg shadow p-4 md:p-6">
-            <div class="flex justify-between">
-            <div>
-                <h5 class="leading-none text-3xl font-bold text-gray-900 pb-2">{{ $bookingsThisWeekCount }}</h5>
-                <p class="text-base font-normal text-gray-500">Pesanan minggu ini</p>
-            </div>
-            </div>
-            <div id="area-chart"></div>
-            </div>
-        </div>        
-    </div>
+
+<div class="flex justify-center mx-auto p-32 items-center">
+  <div class="w-full bg-white rounded-lg shadow p-4 md:p-6">
+      <h1 class="text-2xl font-bold mb-4 text-center">Grafik Pesanan Minggu Ini</h1> <!-- Judul chart -->
+      <div class="flex justify-between">
+          <div>
+              <h5 class="leading-none text-3xl font-bold text-gray-900 pb-2">{{ $bookingsThisWeekCount }}</h5>
+              <p class="text-base font-normal text-gray-500">Pesanan masuk</p>
+          </div>
+      </div>
+      <div id="area-chart"></div>
+  </div>
+</div>
+
 
 @endsection
 

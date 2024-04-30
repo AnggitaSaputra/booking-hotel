@@ -5,7 +5,7 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Daftar Harga</h1>
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <table class="w-full table-auto">
+            <table class="w-full table-auto mx-auto">
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="px-4 py-2">Tipe Kamar</th>

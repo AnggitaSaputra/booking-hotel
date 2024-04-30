@@ -27,7 +27,9 @@ class BookingController extends Controller
                 'durasi_menginap' => 'required',
             ]);
 
+            // Inisialisasi variabel $total_bayar dengan nilai awal 0
             $total_bayar = 0;
+            // Inisialisasi variabel $harga_kamar dengan nilai awal 0
             $harga_kamar = 0;
             if ($request->tipe_kamar === 'Standar') {
                 $harga_kamar = 500000;
@@ -37,15 +39,19 @@ class BookingController extends Controller
                 $harga_kamar = 1000000;
             }
             
+            // Mengambil nilai dari input "breakfast" dari form
             $breakfast = $request->breakfast;
             // dd($breakfast);
             if ($breakfast === '1') {
-                $total_bayar = $harga_kamar * $request->durasi_menginap + 80000;
+                // Menghitung total bayar dengan tambahan biaya breakfast jika dipilih
+                $total_bayar = $harga_kamar * $request->durasi_menginap + 80000; 
             } else {
+                // Menghitung total bayar tanpa tambahan biaya breakfast
                 $total_bayar = $harga_kamar * $request->durasi_menginap;
             }
             
             if ($request->durasi_menginap >= 3) {
+                // Memberikan diskon 10% jika durasi menginap lebih dari atau sama dengan 3 hari
                 $total_bayar -= $total_bayar * 0.1;
             }
             $data = [
@@ -70,7 +76,7 @@ class BookingController extends Controller
     }
     function countBookingsByDays()
     {
-        // Initialize an empty array to hold the counts for all days of the week
+        // Inisialisasi array kosong untuk menampung penghitungan sepanjang hari dalam seminggu
         $countsByDay = [
             'Sunday' => 0,
             'Monday' => 0,
@@ -81,23 +87,23 @@ class BookingController extends Controller
             'Saturday' => 0,
         ];
 
-        // Get the start and end dates of the current week
+        // Mendapatkan tanggal mulai dan berakhir pada minggu ini
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
-        // Retrieve bookings made within the current week
+        // Mengambil pemesanan yang dibuat dalam minggu ini
         $bookings = Booking::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
 
-        // Loop through the bookings
+        // Mengulangi pemesanan
         foreach ($bookings as $booking) {
-            // Get the day name of the booking
+            // mendapatkan nama hari pemesanan
             $dayName = Carbon::parse($booking->created_at)->setTimezone('Asia/Jakarta')->formatLocalized('%A');
 
-            // Increment the count for the corresponding day
+            // meningkatkan hitungan untuk hari yang bersangkutan
             $countsByDay[$dayName]++;
         }
 
-        // Return the counts array
+        // Mengembalikan array jumlah
         return Response::json($countsByDay);
     }
 }

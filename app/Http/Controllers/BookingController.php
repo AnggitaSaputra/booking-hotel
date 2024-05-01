@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
 class BookingController extends Controller
 {
-
     public function index(Request $request)
     {
-        if($request->isMethod('GET') ) {
+        if ($request->isMethod('GET')) {
             return view('booking.index');
         }
 
-        if($request->isMethod('POST')) {
-
+        if ($request->isMethod('POST')) {
             $request->validate([
                 'nama' => 'required',
                 'jenis_kelamin' => 'required',
@@ -27,54 +24,67 @@ class BookingController extends Controller
                 'durasi_menginap' => 'required',
             ]);
 
-            // Inisialisasi variabel $total_bayar dengan nilai awal 0
-            $total_bayar = 0;
-            // Inisialisasi variabel $harga_kamar dengan nilai awal 0
+            // Inisialisasi variabel $harga_kamar berdasarkan tipe kamar yang dipilih
             $harga_kamar = 0;
             if ($request->tipe_kamar === 'Standar') {
                 $harga_kamar = 500000;
-            }elseif ($request->tipe_kamar === 'Deluxe'){
+            } elseif ($request->tipe_kamar === 'Deluxe') {
                 $harga_kamar = 750000;
-            }else {
+            } else {
                 $harga_kamar = 1000000;
             }
-            
+
+            // Menghitung total bayar tanpa tambahan biaya breakfast
+            $total_bayar = $harga_kamar * $request->durasi_menginap;
+
             // Mengambil nilai dari input "breakfast" dari form
             $breakfast = $request->breakfast;
-            // dd($breakfast);
-            if ($breakfast === '1') {
-                // Menghitung total bayar dengan tambahan biaya breakfast jika dipilih
-                $total_bayar = $harga_kamar * $request->durasi_menginap + 80000; 
-            } else {
-                // Menghitung total bayar tanpa tambahan biaya breakfast
-                $total_bayar = $harga_kamar * $request->durasi_menginap;
-            }
+
+            $breakfast = $request->has('breakfast') ? $request->breakfast : '0';
             
-            if ($request->durasi_menginap >= 3) {
-                // Memberikan diskon 10% jika durasi menginap lebih dari atau sama dengan 3 hari
-                $total_bayar -= $total_bayar * 0.1;
+            // Jika user memilih sarapan, tambahkan biaya sarapan (Rp 80.000)
+            if ($breakfast === '1') {
+                $total_bayar += 80000;
             }
+
+            // Jika durasi menginap lebih dari atau sama dengan 3 hari, berikan diskon 10%
+            if ($request->durasi_menginap >= 3) {
+                $total_bayar *= 0.9;
+            }
+
+            // Menyimpan data pemesanan ke dalam array
             $data = [
                 'nama' => $request->nama,
-                'jenis_kelamin'=> $request->jenis_kelamin,
-                'nomor_identitas'=> $request->nomor_identitas,
-                'tipe_kamar'=> $request->tipe_kamar,
-                'tanggal_pesan'=> $request->tanggal_pesan,
-                'durasi_menginap'=> $request->durasi_menginap,
-                'breakfast'=> $breakfast,
-                'total_bayar'=> $total_bayar,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'nomor_identitas' => $request->nomor_identitas,
+                'tipe_kamar' => $request->tipe_kamar,
+                'tanggal_pesan' => $request->tanggal_pesan,
+                'durasi_menginap' => $request->durasi_menginap,
+                'breakfast' => $breakfast,
+                'total_bayar' => $total_bayar,
             ];
 
+            // Menyimpan data pemesanan ke dalam database
             $create = Booking::create($data);
 
-            if(!$create){
+            if (!$create) {
                 return redirect()->back()->with('error', 'Failed to create data');
             }
 
-            return redirect()->back()->with('success', 'data created successfully');
+            return redirect('/hasil')->with('success', 'Data created successfully');
         }
     }
-    function countBookingsByDays()
+
+    public function hasil()
+    {
+        // Mengambil semua data pemesanan dari database
+        $booking = Booking::all();
+
+        // Mengembalikan view 'booking.hasil' dengan data pemesanan
+        return view('booking.hasil', compact('booking'));
+    }
+
+    public function countBookingsByDays()
     {
         // Inisialisasi array kosong untuk menampung penghitungan sepanjang hari dalam seminggu
         $countsByDay = [
@@ -104,6 +114,6 @@ class BookingController extends Controller
         }
 
         // Mengembalikan array jumlah
-        return Response::json($countsByDay);
+        return response()->json($countsByDay);
     }
 }

@@ -17,18 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->to(route('booking.chart'));
+    return redirect()->to(route('booking.produk'));
 });
 
 Route::match(['POST','GET'],'/booking', [BookingController::class, 'index'])->name('booking.index');
 
+Route::get('/hasil', [BookingController::class, 'hasil']);
+
 Route::get('/booking/produk', function () {
     return view('booking.produk');
 })->name('booking.produk');
-
-Route::get('/booking/harga', function () {
-    return view('booking.harga');
-})->name('booking.harga');
 
 Route::get('/booking/tentang', function () {
     return view('booking.tentang');

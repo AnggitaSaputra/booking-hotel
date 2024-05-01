@@ -13,7 +13,6 @@
             <a href="#" class="text-xl font-bold">Booking Hotel</a>
             <ul class="flex space-x-4">
                 <li><a href="{{ route('booking.produk') }}" class="hover:text-gray-300">Produk</a></li>
-                <li><a href="{{ route('booking.harga') }}" class="hover:text-gray-300">Daftar Harga</a></li>
                 <li><a href="{{ route('booking.tentang') }}" class="hover:text-gray-300">Tentang Kami</a></li>
                 <li><a href="{{ route('booking.index') }}" class="hover:text-gray-300">Booking Form</a></li>
                 <li><a href="{{ route('booking.chart') }}" class="hover:text-gray-300">Chart</a></li>

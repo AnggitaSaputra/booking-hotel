@@ -2,7 +2,39 @@
 
 @section('content')
 
-<!-- Content -->
+<!-- Hero Section -->
+<div class="bg-gray-800 text-white py-20 px-4">
+    <div class="container mx-auto text-center">
+        <h1 class="text-4xl font-bold mb-4">Selamat Datang di Hotel Kami</h1>
+        <p class="text-lg mb-6">Nikmati pengalaman menginap yang tak terlupakan</p>
+        <a href="/booking" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full">Booking Sekarang!</a>
+    </div>
+</div>
+<!-- Services Section -->
+<div class="bg-gray-100 py-12">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">Layanan Kami</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">Spa & Wellness</h3>
+                <p class="text-gray-700 mb-4">Nikmati layanan spa yang menenangkan dan program kesehatan yang lengkap.</p>
+                <a href="#" class="text-blue-500 hover:underline">Baca Selengkapnya</a>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">Restoran & Kafe</h3>
+                <p class="text-gray-700 mb-4">Jelajahi berbagai hidangan lezat dari masakan lokal hingga internasional di restoran kami.</p>
+                <a href="#" class="text-blue-500 hover:underline">Baca Selengkapnya</a>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">Ruang Pertemuan</h3>
+                <p class="text-gray-700 mb-4">Kami menyediakan fasilitas ruang pertemuan yang nyaman untuk keperluan bisnis atau acara spesial Anda.</p>
+                <a href="#" class="text-blue-500 hover:underline">Baca Selengkapnya</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products Section -->
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Produk</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -41,5 +73,37 @@
         </div>
     </div>
 </div>
-</body>
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Daftar Harga</h1>
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="w-full table-auto mx-auto">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="px-4 py-2">Tipe Kamar</th>
+                    <th class="px-4 py-2">Harga per Malam</th>
+                    <th class="px-4 py-2">Fasilitas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border px-4 py-2">Standar</td>
+                    <td class="border px-4 py-2">Rp 500.000</td>
+                    <td class="border px-4 py-2">AC, TV</td>
+                </tr>
+                <tr>
+                    <td class="border px-4 py-2">Deluxe</td>
+                    <td class="border px-4 py-2">Rp 750.000</td>
+                    <td class="border px-4 py-2">AC, TV, WIFI</td>
+                </tr>
+                <tr>
+                    <td class="border px-4 py-2">Suite</td>
+                    <td class="border px-4 py-2">Rp 1.000.000</td>
+                    <td class="border px-4 py-2">AC, TV, WIFI, Living Room</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
 @endsection

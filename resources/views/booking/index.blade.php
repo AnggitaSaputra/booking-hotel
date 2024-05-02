@@ -62,7 +62,7 @@
             <div class="mb-4">
                 <button type="button" id="hitungPembayaran" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2">Hitung Pembayaran</button>
                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mr-2">Simpan</button>
-                <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600" onclick="window.location.href='{{ route('booking.index') }}'">Batal</button>
+                <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600" onclick="window.location.href='{{ route('booking.produk') }}'">Batal</button>
             </div>            
         </form>
     </div>

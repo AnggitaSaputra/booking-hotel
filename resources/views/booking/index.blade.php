@@ -22,13 +22,15 @@
                 <label for="nama" class="block text-sm font-medium text-gray-700">Nama:</label>
                 <input type="text" id="nama" name="nama" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
             </div>
-            <div class="mb-4">
-                <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis Kelamin:</label>
-                <select name="jenis_kelamin" id="jenis_kelamin" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                    <option value="laki-laki">Laki-laki</option>
-                    <option value="perempuan">Perempuan</option>
-                </select>
-            </div>
+            <div class="mb-4 flex items-center">
+                <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700 mr-4">Jenis Kelamin:</label>
+                <div class="flex items-center">
+                    <input type="radio" id="laki-laki" name="jenis_kelamin" value="laki-laki" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                    <label for="laki-laki" class="text-sm text-gray-900 mr-4">Laki-laki</label>
+                    <input type="radio" id="perempuan" name="jenis_kelamin" value="perempuan" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                    <label for="perempuan" class="text-sm text-gray-900">Perempuan</label>
+                </div>
+            </div>               
             <div class="mb-4">
                 <label for="nomor_identitas" class="block text-sm font-medium text-gray-700">Nomor Identitas (Maksimal 16 Karakter):</label>
                 <input type="number" id="nomor_identitas" name="nomor_identitas" required oninput="validateIdentityNumber()" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
@@ -50,10 +52,11 @@
                 <label for="durasi_menginap" class="block text-sm font-medium text-gray-700">Durasi Menginap (hari):</label>
                 <input type="number" id="durasi_menginap" name="durasi_menginap" required class="mt-1 p-2 border border-gray-300 rounded-md w-full" min="1">
             </div>                    
-            <div class="mb-4">
+            <div class="mb-4 flex items-center">
+                <label for="breakfast" class="text-sm font-medium text-gray-700 mr-2">Pilih Breakfast:</label>
                 <input type="checkbox" id="breakfast" name="breakfast" value="1" class="mr-2">
-                <label for="breakfast" class="text-sm font-medium text-gray-700">Pilih Breakfast</label>
-            </div>
+                <span class="text-sm">Ya</span>
+            </div>            
             <div class="mb-4">
                 <label for="total_bayar" class="block text-sm font-medium text-gray-700">Total Pembayaran:</label>
                 <input type="text" id="total_bayar" name="total_bayar" readonly class="mt-1 p-2 border border-gray-300 rounded-md w-full">
@@ -108,45 +111,50 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Menambahkan event listener untuk tombol 'hitungPembayaran'
         document.getElementById('hitungPembayaran').addEventListener('click', function() {
-            // Mengambil nilai durasi menginap dari input dengan id 'durasi_menginap'
-            var durasiMenginap = document.getElementById('durasi_menginap').value;
-        
-            // Mengambil nilai tipe kamar dari select dengan id 'tipe_kamar'
-            var tipeKamar = document.getElementById('tipe_kamar').value;
-        
-            // Inisialisasi variabel totalBayar dengan nilai awal 0
-            var totalBayar = 0;
-        
-            // Kondisi untuk menghitung total biaya berdasarkan tipe kamar yang dipilih
-            if (tipeKamar === 'Standar') {
-                totalBayar = durasiMenginap * 500000;
-            } else if (tipeKamar === 'Deluxe') {
-                totalBayar = durasiMenginap * 750000;
-            } else if (tipeKamar === 'Family') {
-                totalBayar = durasiMenginap * 1000000;
-            }
-        
-            // Memeriksa apakah checkbox sarapan di-check
-            var isBreakfastChecked = document.getElementById('breakfast').checked;
-        
-            // Jika checkbox sarapan di-check, tambahkan biaya sarapan (Rp 80.000) ke totalBayar
-            if (isBreakfastChecked) {
-                totalBayar += 80000;
-            }
-        
-            // Jika durasi menginap lebih dari atau sama dengan 3 hari, berikan diskon 10%
-            if (durasiMenginap >= 3) {
-                totalBayar *= 0.9;
-                // Tampilkan teks diskon
-                document.getElementById('diskon_info').innerText = "Anda mendapatkan diskon 10%";
-            } else {
-                // Kosongkan teks diskon jika durasi tidak memenuhi syarat
-                document.getElementById('diskon_info').innerText = "";
-            }
-        
-            // Menetapkan nilai total bayar ke input dengan id 'total_bayar' dengan format 'Rp ' + totalBayar
-            document.getElementById('total_bayar').value = 'Rp ' + totalBayar.toLocaleString();
-        });
+    // Mengambil nilai durasi menginap dari input dengan id 'durasi_menginap'
+    var durasiMenginap = document.getElementById('durasi_menginap').value;
+    
+    // Mengambil nilai tipe kamar dari select dengan id 'tipe_kamar'
+    var tipeKamar = document.getElementById('tipe_kamar').value;
+    
+    // Inisialisasi variabel totalBayar dengan nilai awal 0
+    var totalBayar = 0;
+    
+    // Kondisi untuk menghitung total biaya berdasarkan tipe kamar yang dipilih
+    if (tipeKamar === 'Standar') {
+        totalBayar = durasiMenginap * 500000;
+    } else if (tipeKamar === 'Deluxe') {
+        totalBayar = durasiMenginap * 750000;
+    } else if (tipeKamar === 'Family') {
+        totalBayar = durasiMenginap * 1000000;
+    }
+    
+    // Memeriksa apakah checkbox sarapan di-check
+    var isBreakfastChecked = document.getElementById('breakfast').checked;
+
+    // Menghitung biaya sarapan
+    var biayaSarapan = 0;
+    if (isBreakfastChecked) {
+        biayaSarapan = 80000 * durasiMenginap;
+    }
+    
+    // Jika durasi menginap lebih dari atau sama dengan 3 hari, berikan diskon 10%
+    if (durasiMenginap >= 3) {
+        totalBayar *= 0.9;
+        // Tampilkan teks diskon
+        document.getElementById('diskon_info').innerText = "Anda mendapatkan diskon 10%";
+    } else {
+        // Kosongkan teks diskon jika durasi tidak memenuhi syarat
+        document.getElementById('diskon_info').innerText = "";
+    }
+    
+    // Menambahkan biaya sarapan ke total bayar
+    totalBayar += biayaSarapan;
+    
+    // Menampilkan total biaya termasuk biaya sarapan
+    document.getElementById('total_bayar').value = 'Rp ' + totalBayar.toLocaleString();
+});
+
         
         
         </script>

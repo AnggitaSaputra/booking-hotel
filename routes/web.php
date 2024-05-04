@@ -32,6 +32,10 @@ Route::get('/booking/tentang', function () {
     return view('booking.tentang');
 })->name('booking.tentang');
 
+Route::get('/booking/hasilAll', function () {
+    return view('booking.hasilAll');
+})->name('booking.hasilAll');
+
 Route::get('/booking/chart', function () {
     // Retrieve all bookings
     $data = Booking::all();

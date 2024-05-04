@@ -25,6 +25,7 @@ class BookingController extends Controller
             ]);
 
             // Inisialisasi variabel $harga_kamar berdasarkan tipe kamar yang dipilih
+            
             $harga_kamar = 0;
             if ($request->tipe_kamar === 'Standar') {
                 $harga_kamar = 500000;
@@ -38,18 +39,16 @@ class BookingController extends Controller
             $total_bayar = $harga_kamar * $request->durasi_menginap;
 
             // Mengambil nilai dari input "breakfast" dari form
-            $breakfast = $request->breakfast;
-
             $breakfast = $request->has('breakfast') ? $request->breakfast : '0';
-            
-            // Jika user memilih sarapan, tambahkan biaya sarapan (Rp 80.000)
-            if ($breakfast === '1') {
-                $total_bayar += 80000;
-            }
 
             // Jika durasi menginap lebih dari atau sama dengan 3 hari, berikan diskon 10%
             if ($request->durasi_menginap >= 3) {
-                $total_bayar *= 0.9;
+                $total_bayar *= 0.9; // Mengurangkan total bayar sebesar 10% (diskon 10%)
+            }
+
+            // Jika user memilih sarapan, tambahkan biaya sarapan (Rp 80.000 per hari)
+            if ($breakfast === '1') {
+                $total_bayar += 80000 * $request->durasi_menginap;
             }
 
             // Menyimpan data pemesanan ke dalam array
@@ -77,11 +76,20 @@ class BookingController extends Controller
 
     public function hasil()
     {
-        // Mengambil semua data pemesanan dari database
-        $booking = Booking::all();
-
-        // Mengembalikan view 'booking.hasil' dengan data pemesanan
-        return view('booking.hasil', compact('booking'));
+        // Mengambil data pemesanan terbaru dari database
+        $latestBooking = Booking::latest()->first();
+        
+        // Memeriksa apakah durasi menginap lebih dari atau sama dengan 3 hari untuk menentukan apakah ada diskon
+        $isDiskon = $latestBooking->durasi_menginap >= 3; 
+        
+        // Menyimpan data pemesanan terbaru dan status diskon dalam sebuah array asosiatif
+        $data = [
+            'latestBooking' => $latestBooking,
+            'isDiskon' => $isDiskon,
+        ];
+    
+        // Mengembalikan view 'booking.hasil' dengan data pemesanan terbaru dan status diskon
+        return view('booking.hasil', compact('data'));
     }
 
     public function countBookingsByDays()

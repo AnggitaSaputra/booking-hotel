@@ -5,6 +5,7 @@
     <div class="container mx-auto">
         <div class="mt-8">
             <h2 class="text-center text-3xl font-semibold mb-4">Latest Booking</h2>
+            
             @if($data['latestBooking'] !== null)
             <div class="bg-white shadow-md rounded overflow-hidden mx-auto" style="max-width: 400px;">
             <table class="min-w-100 divide-y divide-gray-200">
